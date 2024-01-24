@@ -1,24 +1,32 @@
 import styled from "styled-components";
 import Link from "next/link";
 import Layout from "../components/Layout";
+import useSWR from "swr";
+import Loader from "@/components/Loader";
+import { nanoid } from "nanoid";
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export default function HomePage() {
+  const { data, isLoading } = useSWR(`https://swapi.dev/api/people/`, fetcher);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  console.log(data);
+
   return (
     <Layout>
       <h1>React Data Fetching: Star Wars</h1>
       <List>
-        <li>
-          <StyledLink href="/characters/1">Luke Skywalker</StyledLink>
-        </li>
-        <li>
-          <StyledLink href="/characters/2">C-3PO</StyledLink>
-        </li>
-        <li>
-          <StyledLink href="/characters/3">R2-D2</StyledLink>
-        </li>
-        <li>
-          <StyledLink href="/characters/4">Darth Vader</StyledLink>
-        </li>
+        {data.results.map((character, index) => (
+          <li key={nanoid()}>
+            <StyledLink href={`characters/${index + 1}`}>
+              {character.name}
+            </StyledLink>
+          </li>
+        ))}
       </List>
     </Layout>
   );
@@ -35,7 +43,22 @@ const List = styled.ul`
   text-decoration: none;
 `;
 
-const StyledLink = styled(Link)`
+export const StyledLink = styled(Link)`
   text-decoration: none;
   color: var(--color-dark);
 `;
+
+{
+  /* <li>
+<StyledLink href="/characters/1">Luke Skywalker</StyledLink>
+</li>
+<li>
+<StyledLink href="/characters/2">C-3PO</StyledLink>
+</li>
+<li>
+<StyledLink href="/characters/3">R2-D2</StyledLink>
+</li>
+<li>
+<StyledLink href="/characters/4">Darth Vader</StyledLink>
+</li> */
+}
