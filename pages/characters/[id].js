@@ -21,13 +21,13 @@ export default function Character() {
     return <Loader />;
   }
 
-  const whiteStyledLink = styled(StyledLink)`
+  const WhiteStyledLink = styled(StyledLink)`
     color: white;
   `;
 
   return (
     <Layout>
-      <whiteStyledLink href="/">back to overview</whiteStyledLink>
+      <WhiteStyledLink href="/">back to overview</WhiteStyledLink>
       <Card
         id={id}
         name={data.name}
