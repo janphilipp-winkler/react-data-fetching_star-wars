@@ -23,6 +23,7 @@ export default function Character() {
 
   const WhiteStyledLink = styled(StyledLink)`
     color: white;
+    padding-bottom: 1rem;
   `;
 
   return (
